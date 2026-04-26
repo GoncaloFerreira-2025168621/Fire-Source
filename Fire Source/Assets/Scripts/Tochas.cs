@@ -8,6 +8,11 @@ public class Tochas : MonoBehaviour
     //public GameObject tochas;
     public string _TagPlayer = "Player";
 
+    /*[SerializeField] private float _DarkRadius = 100f;
+    [SerializeField] private float _DarkRadiusMin = 15f;
+    const float _tau = 6.283185307179586476925286766559f;*/
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
