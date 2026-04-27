@@ -1,16 +1,15 @@
-using System;
+//using System;
 using UnityEngine;
 
 public class Tochas : MonoBehaviour
 {
-    public GameObject _Light;
+    [SerializeField] private GameObject _Light;
     [SerializeField] private GameObject _Fire;
     //public GameObject tochas;
-    public string _TagPlayer = "Player";
+    [SerializeField] private string _TagPlayer = "Player";
 
-    /*[SerializeField] private float _DarkRadius = 100f;
-    [SerializeField] private float _DarkRadiusMin = 15f;
-    const float _tau = 6.283185307179586476925286766559f;*/
+    [SerializeField] private float _LightPower;
+    [SerializeField] private float _FirePower;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,12 +21,12 @@ public class Tochas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_Light.activeSelf && _Light.transform.localScale.x < 15f)
+        if (_Light.activeSelf && _Light.transform.localScale.x < _LightPower)
         {
             ScaleProgressiveLight();
         }
 
-        if (_Light.activeSelf && _Fire.transform.localScale.x < 1.3f)
+        if (_Light.activeSelf && _Fire.transform.localScale.x < _FirePower)
         {
             ScaleProgressiveFire();
         }
