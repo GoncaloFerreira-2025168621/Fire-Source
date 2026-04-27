@@ -4,7 +4,7 @@ public class Player_controller : MonoBehaviour
 {
     public float speed; // Speed of the player movement
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
-    private Vector2 move; // Variable to store movement input
+    public Vector2 move; // Variable to store movement input
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
