@@ -10,6 +10,7 @@ public class Player_controller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component attached to the player
+        UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
     }
 
     // Update is called once per frame

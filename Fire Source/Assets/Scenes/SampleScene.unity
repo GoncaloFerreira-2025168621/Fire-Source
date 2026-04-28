@@ -292,6 +292,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1685135197}
     - target: {fileID: 1832049519381500777, guid: 53b1c9e0d9a274d4b91f45d93d9c7c95, type: 3}
+      propertyPath: _speedRotation
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832049519381500777, guid: 53b1c9e0d9a274d4b91f45d93d9c7c95, type: 3}
       propertyPath: _AttackRangeValue
       value: 5
       objectReference: {fileID: 0}
