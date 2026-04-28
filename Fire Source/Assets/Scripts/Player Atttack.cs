@@ -5,9 +5,11 @@ public class PlayerAtttack : MonoBehaviour
     [SerializeField] private GameObject _PlayerDirection;
     [SerializeField] private float _AttackSpeed;
     [SerializeField] private float _AttackCooldown; // Tempo de cooldown do ataque em segundos
-    [SerializeField] private GameObject _AttackPointBase;
-    [SerializeField] private GameObject _AttackPointRange;
-    [SerializeField] private GameObject _Bala;
+    [SerializeField] private GameObject _MeleeAttack;
+    [SerializeField] private float _ShotRangeValue; // Valor do alcance do ataque a distÃ¢ncia
+    [SerializeField] private float _MeleeRange; // Alcance do ataque corpo a corpo
+    [SerializeField] private float _speedShot; // Velocidade da bala
+    [SerializeField] private GameObject _Shot;
 
     //[SerializeField] private float _meleeRange = 1f; // Alcance do ataque corpo a corpo
     [SerializeField] private Player_controller _movement;
@@ -24,46 +26,48 @@ public class PlayerAtttack : MonoBehaviour
     {
         _AttackSpeed += Time.deltaTime;// Incrementa o cooldown do ataque a cada frame
 
-        if (_AttackSpeed >= _AttackCooldown) // Verifica se o cooldown do ataque é igual ao tempo definido
+        if (_AttackSpeed >= _AttackCooldown) // Verifica se o cooldown do ataque Ã© igual ao tempo definido
         {
-            BaseAttack(); // Chama o método de ataque base
+            MeleeAttack(); // Chama o mÃ©todo de ataque base
+            RangeAttack(); // Chama o mÃ©todo de ataque Ã  distÃ¢ncia
+
+
         }
         else
         {
-            if (_AttackSpeed >= 0.5f) // Verifica se o cooldown do ataque é igual a 0.5 segundos
+            if (_AttackSpeed >= 0.5f) // Verifica se o cooldown do ataque Ã© igual a 0.5 segundos
             {
-                _AttackPointBase.SetActive(false); // Desativa o ponto de ataque para indicar que o ataque não está mais ativo
+                _MeleeAttack.SetActive(false); // Desativa o ponto de ataque para indicar que o ataque nÃ£o estÃ¡  mais ativo
+                //_Bala.SetActive(false);
             }
         }
-
-        RangeAttack(); // Chama o método de ataque à distância
     }
 
-    public void BaseAttack()
+    public void MeleeAttack()
     {
-
+        Debug.Log("Melee Attack");
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
 
-        // Direção do player para o rato
+        // Direcao do player para o rato
         Vector2 direction = (mousePos - _PlayerDirection.transform.position).normalized;
 
-        // Rotação baseada na direção
+        // Rotacao baseada na direcao
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Aplicar rotação
-        _AttackPointBase.transform.rotation = Quaternion.Euler(0, 0, angle);
+        // Aplicar rotacao
+        _MeleeAttack.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // Posicionar à volta do player
-        _AttackPointBase.transform.localPosition = direction;
+        // Posicionar a volta do player
+        _MeleeAttack.transform.localPosition = (Vector3)direction * _MeleeRange;
 
         // ajusta aqui (testa 90 ou -90)
         angle -= 90f;
 
-        _AttackPointBase.transform.rotation = Quaternion.Euler(0, 0, angle);
+        _MeleeAttack.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        //Instantiate(_AttackPoint, _AttackPoint.transform.position, _AttackPoint.transform.rotation); // Ativa o ponto de ataque para indicar que o ataque está ativo
-        _AttackPointBase.SetActive(true); // Ativa o ponto de ataque para indicar que o ataque está ativo
+        //Instantiate(_AttackPoint, _AttackPoint.transform.position, _AttackPoint.transform.rotation); // Ativa o ponto de ataque para indicar que o ataque estÃ¡ ativo
+        _MeleeAttack.SetActive(true); // Ativa o ponto de ataque para indicar que o ataque estÃ¡ ativo
         _AttackSpeed = 0f; // Reseta o cooldown do ataque
 
         }
@@ -74,29 +78,23 @@ public class PlayerAtttack : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
 
-        // Direção do player para o rato
         Vector2 direction = (mousePos - _PlayerDirection.transform.position).normalized;
 
-        // Rotação baseada na direção
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Aplicar rotação
-        _Bala.transform.rotation = Quaternion.Euler(0, 0, angle);
-        _AttackPointRange.transform.rotation = Quaternion.Euler(0, 0, angle);
+        // Criar bala
+        GameObject bala = Instantiate(_Shot, _PlayerDirection.transform.position, Quaternion.identity);
 
-        // Posicionar à volta do player
-        _Bala.transform.localPosition = direction;
-        _AttackPointRange.transform.localPosition = direction;
+        // RotaÃ§Ã£o
+        bala.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
 
-        // ajusta aqui (testa 90 ou -90)
-        angle -= 90f;
+        // Definir alvo (um ponto Ã  frente)
+        Vector3 target = _PlayerDirection.transform.position + (Vector3)direction * _ShotRangeValue;
 
-        _Bala.transform.rotation = Quaternion.Euler(0, 0, angle);
-        _AttackPointRange.transform.rotation = Quaternion.Euler(0, 0, angle);
+        // Inicializar movimento
+        bala.GetComponent<Bala>().Init(target, _speedShot);
 
-
-
-        _Bala.transform.position = Vector2.MoveTowards(transform.position, _AttackPointRange.transform.position, _AttackSpeed * Time.deltaTime);
+        //_AttackSpeed = 0f;
     }
 }
 
