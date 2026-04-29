@@ -4,12 +4,13 @@ public class Player_controller : MonoBehaviour
 {
     public float speed; // Speed of the player movement
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
-    private Vector2 move; // Variable to store movement input
+    public Vector2 move; // Variable to store movement input
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component attached to the player
+        UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
     }
 
     // Update is called once per frame
