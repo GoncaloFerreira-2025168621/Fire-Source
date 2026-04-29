@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAttack : MonoBehaviour
@@ -11,6 +12,9 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Cards")]
     [SerializeField] private Carts _cards;
+
+    [Header("Lvl Power Attack")]
+    [SerializeField] private Carts _cards_lv;
 
     [Header("Melee Attack")]
     [SerializeField] private GameObject _MeleeAttack_lv1;
@@ -62,11 +66,21 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // Encontra o objeto com a tag "Cards" e obtém o componente Carts
+        GameObject CardsObj = GameObject.FindGameObjectWithTag("Cards");
+        if (CardsObj != null)
+        {
+           
+            _cards = CardsObj.GetComponent<Carts>();
+            _cards_lv = CardsObj.GetComponent<Carts>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if (_cards._card_atual == _cards._card_melee) // Verifica se a carta atual é a de ataque corpo a corpo
         {
 
@@ -86,7 +100,7 @@ public class PlayerAttack : MonoBehaviour
         else if (_cards._card_atual == _cards._card_fireBalls) // Verifica se a carta atual é a de ataque de bola de fogo
         {
             
-        }
+        }*/
         _ExplosionFireTimer += Time.deltaTime; // Incrementa o cooldown do ataque de explosão de fogo a cada frame
         _RangeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque a distância a cada frame
         _MeleeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque corpo a corpo a cada frame
@@ -120,7 +134,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void MeleeAttack()
     {
-        Debug.Log("Melee Attack");
+        //Debug.Log("Melee Attack");
         // Pega a posição do mouse no mundo
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
@@ -178,28 +192,41 @@ public class PlayerAttack : MonoBehaviour
     //FireBalls Giratorias no eixo do player
     public void FireBalls()
     {
-        _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); ; // Aplica uma rotação contínua ao redor do eixo Z
-        _FireBall_lv1.SetActive(true);
+        if(_cards_lv._fireBallsAttackLv == 1)
+        {
+            _FireBall_lv1.SetActive(true);
+            _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); ; // Aplica uma rotação contínua ao redor do eixo Z           
+        }
     }
 
     public void FlameThrower()
     {
-        _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+
+        //
+        if(_cards_lv._flameThrowerAttackLv == 1)
+        {
+            //Debug.Log("FlameThrower Attack");
+            _FlameThrower_lv1.SetActive(true);
+            _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
     }
 
     public void ExplosionFire()
     {
-        Debug.Log("Explosion Fire Attack");
+        //Debug.Log("Explosion Fire Attack");
 
-        _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
-
-        //Aumenta o tamanho da explosão de fogo ate atingir o alcance definido
-        _ExplosionFire.transform.localScale += Vector3.one * _speedExplosionFire * Time.deltaTime;
-        if (_ExplosionFire.transform.localScale.x >= _ExplosionFireRange)
+        if(_cards_lv._explosionFireLv == 1)
         {
-            _ExplosionFire.transform.localScale = Vector3.zero; // Reseta o tamanho da explosão de fogo para o próximo ataque
-            _ExplosionFireTimer = 0f; // Reseta o cooldown do ataque de explosão de fogo
-            _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
+            _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
+
+            //Aumenta o tamanho da explosão de fogo ate atingir o alcance definido
+            _ExplosionFire.transform.localScale += Vector3.one * _speedExplosionFire * Time.deltaTime;
+            if (_ExplosionFire.transform.localScale.x >= _ExplosionFireRange)
+            {
+                _ExplosionFire.transform.localScale = Vector3.zero; // Reseta o tamanho da explosão de fogo para o próximo ataque
+                _ExplosionFireTimer = 0f; // Reseta o cooldown do ataque de explosão de fogo
+                _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
+            }
         }
     }
 }
