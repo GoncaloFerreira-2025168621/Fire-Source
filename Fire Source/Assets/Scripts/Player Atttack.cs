@@ -1,6 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -80,27 +78,18 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (_cards._card_atual == _cards._card_melee) // Verifica se a carta atual é a de ataque corpo a corpo
+        if(_cards_lv._fireBallsAttackLv == 1)
         {
-
+            FireBalls();
         }
-        else if (_cards._card_atual == _cards._card_range) // Verifica se a carta atual é a de ataque a distância
+        if (_cards_lv._flameThrowerAttackLv == 1)
         {
-
+            FlameThrower();
         }
-        else if (_cards._card_atual == _cards._card_explosionFire) // Verifica se a carta atual é a de ataque de explosão de fogo
+        if (_cards_lv._explosionFireLv == 1)
         {
-
+            ExplosionFire();
         }
-        else if (_cards._card_atual == _cards._card_flameThrower) // Verifica se a carta atual é a de ataque de lança chamas
-        { 
-
-        }
-        else if (_cards._card_atual == _cards._card_fireBalls) // Verifica se a carta atual é a de ataque de bola de fogo
-        {
-            
-        }*/
         _ExplosionFireTimer += Time.deltaTime; // Incrementa o cooldown do ataque de explosão de fogo a cada frame
         _RangeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque a distância a cada frame
         _MeleeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque corpo a corpo a cada frame
@@ -117,19 +106,15 @@ public class PlayerAttack : MonoBehaviour
                 //_Bala.SetActive(false);
             }
         }
-
-        if (_RangeAttackTimer >= _RangeAttackCooldown) // Verifica se o cooldown do ataque é igual ao tempo definido
+        /*
+        if (_cards_lv._rangeAttackLv == 1 && _RangeAttackTimer >= _RangeAttackCooldown) // Verifica se o cooldown do ataque a distância é igual ao tempo definido
         {
-            RangeAttack(); // Chama o método de ataque à distância
+            RangeAttack(); // Chama o método de ataque a distância
         }
-
-        if (_ExplosionFireTimer >= _ExplosionFireCooldown) // Verifica se o cooldown do ataque é igual ao tempo definido
+        if(_cards_lv._fireBallsAttackLv == 1) // Verifica se o nível do ataque de bola de fogo é 1
         {
-            ExplosionFire(); // Chama o método de ataque de explosão de fogo
-        }
-
-        FireBalls(); // Chama o método de ataque de bola de fogo
-        FlameThrower(); // Chama o método de ataque de lança chamas
+            FireBalls(); // Chama o método de ataque de bola de fogo
+        }*/
     }
 
     public void MeleeAttack()
@@ -192,41 +177,41 @@ public class PlayerAttack : MonoBehaviour
     //FireBalls Giratorias no eixo do player
     public void FireBalls()
     {
-        if(_cards_lv._fireBallsAttackLv == 1)
+        Debug.Log("FireBallsAttackLv called");
+        _FireBall_lv1.SetActive(true);
+        _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); ; // Aplica uma rotação contínua ao redor do eixo Z
+        if (_cards_lv._fireBallsAttackLv == 1)
         {
-            _FireBall_lv1.SetActive(true);
-            _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); ; // Aplica uma rotação contínua ao redor do eixo Z           
+                       
         }
     }
 
     public void FlameThrower()
     {
-
+        Debug.Log("FlameThrowerAttackLv called");
         //
-        if(_cards_lv._flameThrowerAttackLv == 1)
-        {
-            //Debug.Log("FlameThrower Attack");
-            _FlameThrower_lv1.SetActive(true);
-            _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
-        }
+        _FlameThrower_lv1.SetActive(true);
+        _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        
     }
 
     public void ExplosionFire()
     {
-        //Debug.Log("Explosion Fire Attack");
+        Debug.Log("Explosion Fire Attack");
+        _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
 
-        if(_cards_lv._explosionFireLv == 1)
+        //Aumenta o tamanho da explosão de fogo ate atingir o alcance definido
+        _ExplosionFire.transform.localScale += Vector3.one * _speedExplosionFire * Time.deltaTime;
+        if (_ExplosionFire.transform.localScale.x >= _ExplosionFireRange)
         {
-            _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
+            _ExplosionFire.transform.localScale = Vector3.zero; // Reseta o tamanho da explosão de fogo para o próximo ataque
+            _ExplosionFireTimer = 0f; // Reseta o cooldown do ataque de explosão de fogo
+            _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
+        }
 
-            //Aumenta o tamanho da explosão de fogo ate atingir o alcance definido
-            _ExplosionFire.transform.localScale += Vector3.one * _speedExplosionFire * Time.deltaTime;
-            if (_ExplosionFire.transform.localScale.x >= _ExplosionFireRange)
-            {
-                _ExplosionFire.transform.localScale = Vector3.zero; // Reseta o tamanho da explosão de fogo para o próximo ataque
-                _ExplosionFireTimer = 0f; // Reseta o cooldown do ataque de explosão de fogo
-                _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
-            }
+        if (_cards_lv._explosionFireLv == 1)
+        {
+            
         }
     }
 }

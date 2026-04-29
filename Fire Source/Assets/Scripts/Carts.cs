@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class Carts : MonoBehaviour
 {
+    //public bool _DestroyCards = false;
+
     [Header("PlayerAttack")]
     [SerializeField] public PlayerAttack _PlayerAttack;
+
 
     [Header("Card Objetos")]
     [SerializeField] public GameObject _Card_Melee;// Prefab da carta de ataque corpo a corpo com o numero 1
@@ -51,16 +54,34 @@ public class Carts : MonoBehaviour
 
             _spawnCarts = SpawnCardsObj.GetComponent<SpawnCarts>();
         }
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _meleeAttackLv = 0;
+            _rangeAttackLv = 0;
+            _explosionFireLv = 0;
+            _flameThrowerAttackLv = 0;
+            _fireBallsAttackLv = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _meleeAttackLv = 5;
+            _rangeAttackLv = 5;
+            _explosionFireLv = 5;
+            _flameThrowerAttackLv = 5;
+            _fireBallsAttackLv = 5;
+        }
     }
 
     public void MeleeAttackLv()
     {
+        Debug.Log("MeleeAttackLv called");
         _meleeAttackLv++;
         if (_meleeAttackLv > 5)
         {
@@ -72,10 +93,13 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
+
+        //_DestroyCards = true;
     }
 
     public void RangeAttackLv()
     {
+        Debug.Log("RangeAttackLv called");
         _rangeAttackLv++;
         if (_rangeAttackLv > 5)
         {
@@ -87,10 +111,13 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
+
+        //_DestroyCards = true;
     }
 
     public void ExplosionFireLv()
     {
+        Debug.Log("ExplosionFireLv called");
         _CartaEscolhida = _card_explosionFire;
         _explosionFireLv++;
         if (_explosionFireLv > 5)
@@ -102,6 +129,8 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
+
+        //_DestroyCards = true;
     }
 
     public void FlameThrowerAttackLv()
@@ -118,10 +147,13 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
+
+        //_DestroyCards = true;
     }
 
     public void FireBallsAttackLv()
     {
+        Debug.Log("FireBallsAttackLv called");
         _CartaEscolhida = _card_fireBalls;
         _fireBallsAttackLv++;
         if (_fireBallsAttackLv > 5)
@@ -131,6 +163,7 @@ public class Carts : MonoBehaviour
         _CartaSelecionada_Obj = _Card_FireBalls;
         _PlayerAttack.FireBalls();
 
+        //_DestroyCards = true;
     }
 
     public void VerificationCard()

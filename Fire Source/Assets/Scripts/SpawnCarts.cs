@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class SpawnCarts : MonoBehaviour
@@ -14,6 +15,10 @@ public class SpawnCarts : MonoBehaviour
     [SerializeField] public GameObject _EspaceCart2_Obj;
     [SerializeField] public GameObject _EspaceCart3_Obj;
 
+    public int _removeCardsOnExit = 0; // Flag para controlar se as cartas devem ser removidas ao sair do espaço
+
+    private GameObject prefab;
+
     // Guard para garantir que as cartas só sejam geradas/instanciadas uma vez
     private bool _hasSpawned = false;
 
@@ -29,6 +34,7 @@ public class SpawnCarts : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        _removeCardsOnExit = 0; // Reseta a flag para permitir que as cartas sejam removidas ao sair do espaço
         if (_hasSpawned) return;
         if (!collision.gameObject.CompareTag(_TagPlayer)) return;
 
@@ -52,7 +58,7 @@ public class SpawnCarts : MonoBehaviour
         _hasSpawned = true;
     }
 
-    private void SpawnSlot(int cartaNum, GameObject slotObj, int slotIndex)
+    public void SpawnSlot(int cartaNum, GameObject slotObj, int slotIndex)
     {
         if (slotObj == null)
         {
@@ -60,7 +66,7 @@ public class SpawnCarts : MonoBehaviour
             return;
         }
 
-        GameObject prefab = GetPrefabByNumber(cartaNum);
+        prefab = GetPrefabByNumber(cartaNum);
         if (prefab == null)
         {
             Debug.LogWarning($"Carta número {cartaNum} inválida para o slot {slotIndex}.");
@@ -75,14 +81,19 @@ public class SpawnCarts : MonoBehaviour
             var child = slotObj.transform.GetChild(i);
             Destroy(child.gameObject);
         }
+        
 
-        // Instancia o prefab como filho do slot, mantendo a posição do slot
-        var instantiated = Instantiate(prefab, slotObj.transform.position, Quaternion.identity, slotObj.transform);
-        // Ajuste local (se necessário) para garantir alinhamento
+
+
+        // Instancia o prefab SEM parent e depois seta o parent — evita o aviso do Unity
+        var instantiated = Instantiate(prefab, slotObj.transform.position, Quaternion.identity);
+        instantiated.transform.SetParent(slotObj.transform, false);
+        // Ajuste local para garantir alinhamento
         instantiated.transform.localPosition = Vector3.zero;
 
         // Ativa o slot (se estiver desativado)
         if (!slotObj.activeSelf) slotObj.SetActive(true);
+        
     }
 
     private GameObject GetPrefabByNumber(int num)
@@ -99,15 +110,37 @@ public class SpawnCarts : MonoBehaviour
     }
 
     //Remove as cartas do ecra quando o jogador clicar em uma delas ou sair do espaço de cartas
-    public void ClearSlots()
+    /*
+      // Instancia o prefab SEM parent e depois seta o parent — evita o aviso do Unity
+        var instantiated = Instantiate(prefab, slotObj.transform.position, Quaternion.identity);
+        instantiated.transform.SetParent(slotObj.transform, false);
+        // Ajuste local para garantir alinhamento
+     */
+
+    public void RemoveCardCheck()
     {
-        // Remove os filhos dos slots para limpar as cartas exibidas
-        Destroy(_EspaceCart1_Obj);
-        Destroy(_EspaceCart2_Obj);
-        Destroy(_EspaceCart3_Obj);
-        // Marca como não gerado para permitir nova geração no futuro
-        _hasSpawned = false;
+        _removeCardsOnExit = 1;
+        RemoveCards();
+    }
+    private void RemoveCards()
+    {
+        if (_removeCardsOnExit == 1)
+        {
+            ClearSlot(_EspaceCart1_Obj);
+            ClearSlot(_EspaceCart2_Obj);
+            ClearSlot(_EspaceCart3_Obj);
+            //_removeCardsOnExit = 0;
+        }
     }
 
-   
+    private void ClearSlot(GameObject slotObj)
+    {
+        if (slotObj == null) return;
+
+        for (int i = slotObj.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(slotObj.transform.GetChild(i).gameObject);
+        }
+    }
+
 }

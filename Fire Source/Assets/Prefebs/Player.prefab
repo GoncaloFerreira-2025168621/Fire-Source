@@ -371,8 +371,8 @@ MonoBehaviour:
   _PlayerDirection: {fileID: 484304169644229498}
   _AttackCooldown: 1.5
   _movement: {fileID: 4255543795039228269}
-  _cards: {fileID: 738780658482152365, guid: 50964aa1a061138489a5f0b1ca56a96c, type: 3}
-  _cards_lv: {fileID: 738780658482152365, guid: 50964aa1a061138489a5f0b1ca56a96c, type: 3}
+  _cards: {fileID: 4458905259693509941, guid: 442fe5abd34568a43a6b4c84631e8ee3, type: 3}
+  _cards_lv: {fileID: 4458905259693509941, guid: 442fe5abd34568a43a6b4c84631e8ee3, type: 3}
   _MeleeAttack_lv1: {fileID: 8570572943168553131}
   _MeleeAttack_lv2: {fileID: 5390245132291692925}
   _MeleeAttack_lv3: {fileID: 1830885970716567679}
@@ -756,7 +756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739642396364645864}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.015057922, w: 0.99988663}
+  m_LocalRotation: {x: 0, y: 0, z: 0.03392701, w: 0.99942434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1566,7 +1566,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.01243, y: 3.01243, z: 3.01243}
+  m_LocalScale: {x: 3.0204952, y: 3.0204952, z: 3.0204952}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4466204602141352199}
@@ -1774,7 +1774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4480677557881919349}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.021376703, w: 0.99977154}
+  m_LocalRotation: {x: 0, y: 0, z: 0.0358284, w: 0.99935794}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
@@ -3195,7 +3195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7111157529731257257
 Transform:
   m_ObjectHideFlags: 0
@@ -3204,8 +3204,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8570572943168553131}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: -0.056342237}
+  m_LocalRotation: {x: -0, y: -0, z: -0.83076674, w: 0.5566207}
+  m_LocalPosition: {x: 1.8496879, y: -0.76069343, z: 0}
   m_LocalScale: {x: 1.7125, y: 0.225, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

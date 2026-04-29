@@ -257,21 +257,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 738780658482152365, guid: 50964aa1a061138489a5f0b1ca56a96c, type: 3}
+      - m_Target: {fileID: 4458905259693509941, guid: 442fe5abd34568a43a6b4c84631e8ee3, type: 3}
         m_TargetAssemblyTypeName: Carts, Assembly-CSharp
         m_MethodName: ExplosionFireLv
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2240278091528770226, guid: 47f50d80d2a6b424aa9f2b8876db7c52, type: 3}
-        m_TargetAssemblyTypeName: SpawnCarts, Assembly-CSharp
-        m_MethodName: ClearSlots
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2785689960345276199
+--- !u!1 &8793447037753580640
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7641138893958716358}
-  - component: {fileID: 738780658482152365}
+  - component: {fileID: 3989805516730438858}
+  - component: {fileID: 4458905259693509941}
   m_Layer: 0
-  m_Name: Cards
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Name: GameManager
+  m_TagString: Cards
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7641138893958716358
+--- !u!4 &3989805516730438858
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785689960345276199}
+  m_GameObject: {fileID: 8793447037753580640}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.767131, y: -1.3297223, z: -0.092023715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &738780658482152365
+--- !u!114 &4458905259693509941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785689960345276199}
+  m_GameObject: {fileID: 8793447037753580640}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44f54831b4efbdf42b5bd98b99307d56, type: 3}
@@ -50,24 +50,24 @@ MonoBehaviour:
   _Card_ExplosionFire: {fileID: 7088426277680634252, guid: 471ce98f804b6034587ed863e5415ea2, type: 3}
   _Card_FlameThrower: {fileID: 8173723255803009164, guid: ab1371d731412974e91da8069210a28b, type: 3}
   _Card_FireBalls: {fileID: 3989138459625250009, guid: cbb69bb6fb1a94d47a7ef1417b10f0df, type: 3}
-  _CartaSelecionada_Obj: {fileID: 7088426277680634252, guid: 471ce98f804b6034587ed863e5415ea2, type: 3}
+  _CartaSelecionada_Obj: {fileID: 8173723255803009164, guid: ab1371d731412974e91da8069210a28b, type: 3}
   _spawnCarts: {fileID: 2240278091528770226, guid: 47f50d80d2a6b424aa9f2b8876db7c52, type: 3}
   _meleeAttackLv: 0
   _rangeAttackLv: 0
   _explosionFireLv: 0
-  _flameThrowerAttackLv: 0
-  _fireBallsAttackLv: 0
+  _flameThrowerAttackLv: 1
+  _fireBallsAttackLv: 1
   _card_melee: 1
   _card_range: 2
   _card_explosionFire: 3
   _card_flameThrower: 4
   _card_fireBalls: 5
-  _CartaEscolhida: 3
+  _CartaEscolhida: 4
   _Card_1: 0
   _Card_2: 0
   _Card_3: 0
   _Espaco_Cards_Disponivel: 1
   _cartasDisponiveis: 3
-  _Space_Cards1: 0
+  _Space_Cards1: 1
   _Space_Cards2: 1
   _Space_Cards3: 1
