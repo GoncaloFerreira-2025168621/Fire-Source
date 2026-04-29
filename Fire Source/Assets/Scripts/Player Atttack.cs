@@ -69,23 +69,23 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_cards._card_atual == _cards._card_melee) // Verifica se a carta atual é a de ataque corpo a corpo
         {
-            _AttackCooldown = _MeleeAttackCooldown; // Define o cooldown do ataque para o valor do ataque corpo a corpo
+
         }
         else if (_cards._card_atual == _cards._card_range) // Verifica se a carta atual é a de ataque a distância
         {
-            _AttackCooldown = _RangeAttackCooldown; // Define o cooldown do ataque para o valor do ataque a distância
+
         }
         else if (_cards._card_atual == _cards._card_explosionFire) // Verifica se a carta atual é a de ataque de explosão de fogo
         {
-            _AttackCooldown = _ExplosionFireCooldown; // Define o cooldown do ataque para o valor do ataque de explosão de fogo
+
         }
         else if (_cards._card_atual == _cards._card_flameThrower) // Verifica se a carta atual é a de ataque de lança chamas
-        {
-            _AttackCooldown = _FlameThrowerCooldown; // Define o cooldown do ataque para o valor do ataque de lança chamas
+        { 
+
         }
         else if (_cards._card_atual == _cards._card_fireBalls) // Verifica se a carta atual é a de ataque de bola de fogo
         {
-            _AttackCooldown = _FireBallsCooldown; // Define o cooldown do ataque para o valor do ataque de bola de fogo
+            
         }
         _ExplosionFireTimer += Time.deltaTime; // Incrementa o cooldown do ataque de explosão de fogo a cada frame
         _RangeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque a distância a cada frame
