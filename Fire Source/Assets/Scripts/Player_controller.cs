@@ -10,7 +10,7 @@ public class Player_controller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component attached to the player
-        UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
+        
     }
 
     // Update is called once per frame
@@ -21,6 +21,11 @@ public class Player_controller : MonoBehaviour
         move.y = Input.GetAxisRaw("Vertical");
         // Normalize the movement vector to ensure consistent speed in all directions
         move = move.normalized * speed;
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
+        }
     }
 
     private void FixedUpdate()

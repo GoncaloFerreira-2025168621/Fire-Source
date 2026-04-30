@@ -15,28 +15,33 @@ public class SpawnCarts : MonoBehaviour
     [SerializeField] public GameObject _EspaceCart2_Obj;
     [SerializeField] public GameObject _EspaceCart3_Obj;
 
+    public int _numeroCarta1;
+    public int _numeroCarta2;
+    public int _numeroCarta3;
+
+    public int[] numeros;
+
     public int _removeCardsOnExit = 0; // Flag para controlar se as cartas devem ser removidas ao sair do espaço
 
     private GameObject prefab;
 
-    // Guard para garantir que as cartas só sejam geradas/instanciadas uma vez
-    private bool _hasSpawned = false;
+
 
     void Start()
     {
         
     }
 
+
     void Update()
     {
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void RandomizeCards()
     {
-        _removeCardsOnExit = 0; // Reseta a flag para permitir que as cartas sejam removidas ao sair do espaço
-        if (_hasSpawned) return;
-        if (!collision.gameObject.CompareTag(_TagPlayer)) return;
+
+       // if (!collision.gameObject.CompareTag(_TagPlayer)) return;
 
         Debug.Log("Player entrou no espaço de cartas");
 
@@ -49,13 +54,24 @@ public class SpawnCarts : MonoBehaviour
             Debug.Log("Cartas geradas: " + _EspaceCart1 + ", " + _EspaceCart2 + ", " + _EspaceCart3);
         }
 
+        
+        if(_cards._cartasDisponiveis <= 0)
+        {
+            numeros = new int[] { _numeroCarta1, _numeroCarta2, _numeroCarta3 };
+            Debug.Log("Não há mais cartas disponíveis para escolher. Gerando cartas aleatórias.");
+            _EspaceCart1 = numeros[Random.Range(0, numeros.Length)];
+            _EspaceCart2 = numeros[Random.Range(0, numeros.Length)];
+            _EspaceCart3 = numeros[Random.Range(0, numeros.Length)];
+        }
+
+       
+
         // Spawn das cartas nos slots
         SpawnSlot(_EspaceCart1, _EspaceCart1_Obj, 1);
         SpawnSlot(_EspaceCart2, _EspaceCart2_Obj, 2);
         SpawnSlot(_EspaceCart3, _EspaceCart3_Obj, 3);
 
-        // Marca como já gerado para não repetir
-        _hasSpawned = true;
+        
     }
 
     public void SpawnSlot(int cartaNum, GameObject slotObj, int slotIndex)
@@ -140,6 +156,101 @@ public class SpawnCarts : MonoBehaviour
         for (int i = slotObj.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(slotObj.transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void AtributiteMeleeCard()
+    {
+        // Atribui a carta de ataque corpo a corpo ao primeiro slot disponível
+        if (_numeroCarta1 == 0)
+        {
+            _numeroCarta1 = 1;
+            GetPrefabByNumber(_numeroCarta1);
+        }
+        else if (_numeroCarta2 == 0 && _numeroCarta1 != 1)
+        {
+            _numeroCarta2 = 1;
+            GetPrefabByNumber(_numeroCarta2);
+        }
+        else if (_numeroCarta3 == 0 && _numeroCarta1 != 1 && _numeroCarta2 != 1)
+        {
+            _numeroCarta3 = 1;
+            GetPrefabByNumber(_numeroCarta3);
+        }
+    }
+    public void AtributiteRangeCard()
+    {
+        // Atribui a carta de ataque corpo a corpo ao primeiro slot disponível
+        if (_numeroCarta1 == 0)
+        {
+            _numeroCarta1 = 2;
+            GetPrefabByNumber(_numeroCarta1);
+        }
+        else if (_numeroCarta2 == 0 && _numeroCarta1 != 2)
+        {
+            _numeroCarta2 = 2;
+            GetPrefabByNumber(_numeroCarta2);
+        }
+        else if (_numeroCarta3 == 0 && _numeroCarta1 != 2 && _numeroCarta2 != 2)
+        {
+            _numeroCarta3 = 2;
+            GetPrefabByNumber(_numeroCarta3);
+        }
+    }
+    public void AtributiteExplosionFireCard()
+    {
+        if (_numeroCarta1 == 0)
+        {
+            _numeroCarta1 = 3;
+            GetPrefabByNumber(_numeroCarta1);
+        }
+        else if (_numeroCarta2 == 0 && _numeroCarta1 != 3)
+        {
+            _numeroCarta2 = 3;
+            GetPrefabByNumber(_numeroCarta2);
+        }
+        else if (_numeroCarta3 == 0 && _numeroCarta1 != 3 && _numeroCarta2 != 3)
+        {
+            _numeroCarta3 = 3;
+            GetPrefabByNumber(_numeroCarta3);
+        }
+    }
+    
+    public void AtributiteFlameThrowerCard()
+    {
+        if (_numeroCarta1 == 0)
+        {
+            _numeroCarta1 = 4;
+            GetPrefabByNumber(_numeroCarta1);
+        }
+        else if (_numeroCarta2 == 0 && _numeroCarta1 != 4)
+        {
+            _numeroCarta2 = 4;
+            GetPrefabByNumber(_numeroCarta2);
+        }
+        else if (_numeroCarta3 == 0 && _numeroCarta1 != 4 && _numeroCarta2 != 4)
+        {
+            _numeroCarta3 = 4;
+            GetPrefabByNumber(_numeroCarta3);
+        }
+    }
+    
+    public void AtributiteFireBallsCard()
+    {
+        if(_numeroCarta1 == 0)
+        {
+            _numeroCarta1 = 5;
+            GetPrefabByNumber(_numeroCarta1);
+        }
+        else if(_numeroCarta2 == 0 && _numeroCarta1 != 5)
+        {
+            _numeroCarta2 = 5;
+            GetPrefabByNumber(_numeroCarta2);
+        }
+        else if(_numeroCarta3 == 0 && _numeroCarta1 != 5 && _numeroCarta2 != 5)
+        {
+            _numeroCarta3 = 5;
+            GetPrefabByNumber(_numeroCarta3);
         }
     }
 

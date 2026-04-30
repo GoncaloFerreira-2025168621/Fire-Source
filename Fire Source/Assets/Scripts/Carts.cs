@@ -48,7 +48,7 @@ public class Carts : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameObject SpawnCardsObj = GameObject.FindGameObjectWithTag("SpawnCarts");
+        GameObject SpawnCardsObj = GameObject.FindGameObjectWithTag("GameManager");
         if (SpawnCardsObj != null)
         {
 
@@ -87,6 +87,10 @@ public class Carts : MonoBehaviour
         {
             _meleeAttackLv = 5; // Limita o nível máximo a 5
         }
+
+        if (_meleeAttackLv == 1)// Se for a primeira vez que a carta de ataque corpo a corpo é escolhida, decrementa o número de cartas disponíveis
+            _cartasDisponiveis--;
+
         _CartaEscolhida = _card_melee;
         _CartaSelecionada_Obj = _Card_Melee;
         _PlayerAttack.MeleeAttack();
@@ -94,7 +98,7 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
 
-        //_DestroyCards = true;
+        
     }
 
     public void RangeAttackLv()
@@ -105,6 +109,10 @@ public class Carts : MonoBehaviour
         {
             _rangeAttackLv = 5; // Limita o nível máximo a 5
         }
+
+        if (_rangeAttackLv == 1)// Se for a primeira vez que a carta de ataque a distância é escolhida, decrementa o número de cartas disponíveis
+            _cartasDisponiveis--;
+
         _CartaEscolhida = _card_range;
         _CartaSelecionada_Obj = _Card_Range;
         _PlayerAttack.RangeAttack();
@@ -112,7 +120,8 @@ public class Carts : MonoBehaviour
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
 
-        //_DestroyCards = true;
+        
+        
     }
 
     public void ExplosionFireLv()
@@ -124,13 +133,17 @@ public class Carts : MonoBehaviour
         {
             _explosionFireLv = 5; // Limita o nível máximo a 5
         }
+
+        if( _explosionFireLv == 1)// Se for a primeira vez que a carta de explosão de fogo é escolhida, decrementa o número de cartas disponíveis
+            _cartasDisponiveis--;
+
         _CartaSelecionada_Obj = _Card_ExplosionFire;
         _PlayerAttack.ExplosionFire();
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
 
-        //_DestroyCards = true;
+        
     }
 
     public void FlameThrowerAttackLv()
@@ -142,13 +155,17 @@ public class Carts : MonoBehaviour
         {
             _flameThrowerAttackLv = 5; // Limita o nível máximo a 5
         }
+
+        if (_flameThrowerAttackLv == 1)// Se for a primeira vez que a carta de lança chamas é escolhida, decrementa o número de cartas disponíveis
+            _cartasDisponiveis--;
+
         _CartaSelecionada_Obj = _Card_FlameThrower;
         _PlayerAttack.FlameThrower();
         _spawnCarts._EspaceCart1_Obj.SetActive(false);
         _spawnCarts._EspaceCart2_Obj.SetActive(false);
         _spawnCarts._EspaceCart3_Obj.SetActive(false);
 
-        //_DestroyCards = true;
+        
     }
 
     public void FireBallsAttackLv()
@@ -160,49 +177,23 @@ public class Carts : MonoBehaviour
         {
             _fireBallsAttackLv = 5; // Limita o nível máximo a 5
         }
+
+        if (_fireBallsAttackLv == 1)// Se for a primeira vez que a carta de bola de fogo é escolhida, decrementa o número de cartas disponíveis
+        {
+            _cartasDisponiveis--;
+        }
+
         _CartaSelecionada_Obj = _Card_FireBalls;
         _PlayerAttack.FireBalls();
+        _spawnCarts._EspaceCart1_Obj.SetActive(false);
+        _spawnCarts._EspaceCart2_Obj.SetActive(false);
+        _spawnCarts._EspaceCart3_Obj.SetActive(false);
 
-        //_DestroyCards = true;
+        
     }
 
     public void VerificationCard()
     {
-        //true = carta disponivel False = carta indisponivel
-        //Verifica se a carta escolhida já está presente em um dos espaços de cartas e se ainda há espaço disponível para adicionar a carta
-        if ((_CartaEscolhida != _Card_1 && _cartasDisponiveis > 0) 
-            && (_CartaEscolhida != _Card_2 && _cartasDisponiveis > 0) 
-            && (_CartaEscolhida != _Card_3 && _cartasDisponiveis > 0))
-            {
-                //Verifica se o espaço para a carta está disponível e atribui a carta escolhida ao espaço correspondente
-                if (_Space_Cards1 == _Espaco_Cards_Disponivel)
-                {
-                    _cartasDisponiveis--;
-                    _Card_1 = _CartaEscolhida;
-                    _Space_Cards1 = false;
-                    _spawnCarts._EspaceCart1_Obj = _CartaSelecionada_Obj;
-                }
-                else if (_Space_Cards2 == _Espaco_Cards_Disponivel)
-                {
-                    _cartasDisponiveis--;
-                    _Card_2 = _CartaEscolhida;
-                    _Space_Cards2 = false;
-                    _spawnCarts._EspaceCart2_Obj = _CartaSelecionada_Obj;
-            }
-                else if (_Space_Cards3 == _Espaco_Cards_Disponivel)
-                {
-                    _cartasDisponiveis--;
-                    _Card_3 = _CartaEscolhida;
-                    _Space_Cards3 = false;
-                    _spawnCarts._EspaceCart3_Obj = _CartaSelecionada_Obj;
-            }
-            }
-        else
-        {
-            _Espaco_Cards_Disponivel = true;
-        }
-
         
-
     }
 }

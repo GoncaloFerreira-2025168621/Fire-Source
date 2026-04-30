@@ -78,21 +78,89 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_cards_lv._fireBallsAttackLv == 1)
+        //timers
+        //verifica se o ataque de explosão de fogo está disponível para ser usado
+       /* if (_cards_lv._explosionFireLv > 0)
         {
-            FireBalls();
+            _ExplosionFireTimer += Time.deltaTime; // Incrementa o cooldown do ataque de explosão de fogo a cada frame
+        }*/
+        //verifica se o ataque a distância está disponível para ser usado
+        if (_cards_lv._rangeAttackLv > 0)
+        {
+            _RangeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque a distância a cada frame
+        }
+        //verifica se melee attack está disponível para ser usado
+        if (_cards_lv._meleeAttackLv > 0) // Verifica se o nível do ataque corpo a corpo é maior que 0
+        {
+            _MeleeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque corpo a corpo a cada frame
+        }
+
+        FireBalls();
+        FlameThrower();
+        ExplosionFire();
+
+        if (_cards_lv._fireBallsAttackLv == 1)
+        {
+            
         }
         if (_cards_lv._flameThrowerAttackLv == 1)
         {
-            FlameThrower();
+            
         }
         if (_cards_lv._explosionFireLv == 1)
         {
-            ExplosionFire();
+            
         }
-        _ExplosionFireTimer += Time.deltaTime; // Incrementa o cooldown do ataque de explosão de fogo a cada frame
-        _RangeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque a distância a cada frame
-        _MeleeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque corpo a corpo a cada frame
+
+        // Define o cooldown do ataque corpo a corpo com base no nível do ataque
+        if (_cards_lv._meleeAttackLv == 1)
+        {
+            _MeleeAttackCooldown = 2f;
+
+        }
+        else if (_cards_lv._meleeAttackLv == 2)
+        {
+            _MeleeAttackCooldown = 1.5f;
+        }
+        else if (_cards_lv._meleeAttackLv == 3)
+        {
+            _MeleeAttackCooldown = 1f;
+        }
+        else if (_cards_lv._meleeAttackLv == 4)
+        {
+            _MeleeAttackCooldown = 0.75f;
+        }
+        else if (_cards_lv._meleeAttackLv == 5)
+        {
+            _MeleeAttackCooldown = 0.5f;
+        }
+
+        // Define o cooldown do ataque a distância com base no nível do ataque
+        if (_cards_lv._rangeAttackLv == 1)
+        {
+            _RangeAttackCooldown = 2f;
+        }
+        else if (_cards_lv._rangeAttackLv == 2)
+        {
+            _RangeAttackCooldown = 1.5f;
+        }
+        else if (_cards_lv._rangeAttackLv == 3)
+        {
+            _RangeAttackCooldown = 1f;
+        }
+        else if (_cards_lv._rangeAttackLv == 4)
+        {
+            _RangeAttackCooldown = 0.75f;
+        }
+        else if (_cards_lv._rangeAttackLv == 5)
+        {
+            _RangeAttackCooldown = 0.5f;
+        }
+
+        if (_RangeAttackTimer >= _RangeAttackCooldown) // Verifica se o cooldown do ataque a distância é igual ao tempo definido
+        {
+            RangeAttack(); // Chama o método de ataque a distância
+        }
 
         if (_MeleeAttackTimer >= _MeleeAttackCooldown) // Verifica se o cooldown do ataque é igual ao tempo definido
         {
@@ -100,12 +168,10 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            if (_MeleeAttackTimer >= 0.5f) // Verifica se o cooldown do ataque é igual a 0.5 segundos
-            {
-                _MeleeAttack_lv1.SetActive(false); // Desativa o ponto de ataque para indicar que o ataque não está  mais ativo
-                //_Bala.SetActive(false);
-            }
+            
         }
+
+
         /*
         if (_cards_lv._rangeAttackLv == 1 && _RangeAttackTimer >= _RangeAttackCooldown) // Verifica se o cooldown do ataque a distância é igual ao tempo definido
         {
@@ -119,6 +185,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void MeleeAttack()
     {
+        _MeleeAttack_lv1.SetActive(true); 
         //Debug.Log("Melee Attack");
         // Pega a posição do mouse no mundo
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -141,9 +208,16 @@ public class PlayerAttack : MonoBehaviour
 
         _MeleeAttack_lv1.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        if (_MeleeAttackTimer >= _MeleeAttackCooldown + 0.5f)// Verifica se o cooldown do ataque corpo a corpo é igual ao tempo definido mais um tempo extra para manter o ponto de ataque ativo por um curto período
+        {
+            _MeleeAttack_lv1.SetActive(false);
+            _MeleeAttackTimer = 0f; // Reseta o cooldown do ataque
+
+        }
+
         //Instantiate(_AttackPoint, _AttackPoint.transform.position, _AttackPoint.transform.rotation); // Ativa o ponto de ataque para indicar que o ataque está ativo
-        _MeleeAttack_lv1.SetActive(true); // Ativa o ponto de ataque para indicar que o ataque está ativo
-        _MeleeAttackTimer = 0f; // Reseta o cooldown do ataque
+        // _MeleeAttack_lv1.SetActive(true); // Ativa o ponto de ataque para indicar que o ataque está ativo
+        
 
         }
 
@@ -177,41 +251,113 @@ public class PlayerAttack : MonoBehaviour
     //FireBalls Giratorias no eixo do player
     public void FireBalls()
     {
-        Debug.Log("FireBallsAttackLv called");
-        _FireBall_lv1.SetActive(true);
-        _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); ; // Aplica uma rotação contínua ao redor do eixo Z
+
+        //Debug.Log("FireBallsAttackLv called");
         if (_cards_lv._fireBallsAttackLv == 1)
         {
-                       
+            _FireBall_lv1.SetActive(true);
+            _FireBall_lv1.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
         }
+        else if (_cards_lv._fireBallsAttackLv == 2)
+        {
+            _FireBall_lv1.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FireBall_lv2.SetActive(true);
+            _FireBall_lv2.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._fireBallsAttackLv == 3)
+        {
+            _FireBall_lv2.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FireBall_lv3.SetActive(true);
+            _FireBall_lv3.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._fireBallsAttackLv == 4)
+        {
+            _FireBall_lv3.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FireBall_lv4.SetActive(true);
+            _FireBall_lv4.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._fireBallsAttackLv == 5)
+        {
+            _FireBall_lv4.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FireBall_lv5.SetActive(true);
+            _FireBall_lv5.transform.Rotate(0, 0, _speedFireBall * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+
     }
 
     public void FlameThrower()
     {
-        Debug.Log("FlameThrowerAttackLv called");
+        //Debug.Log("FlameThrowerAttackLv called");
         //
-        _FlameThrower_lv1.SetActive(true);
-        _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
-        
+
+        if(_cards_lv._flameThrowerAttackLv == 1)
+        {
+            _FlameThrower_lv1.SetActive(true);
+            _FlameThrower_lv1.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._flameThrowerAttackLv == 2)
+        {
+            _FlameThrower_lv1.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FlameThrower_lv2.SetActive(true);
+            _FlameThrower_lv2.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._flameThrowerAttackLv == 3)
+        {
+            _FlameThrower_lv2.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FlameThrower_lv3.SetActive(true);
+            _FlameThrower_lv3.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._flameThrowerAttackLv == 4)
+        {
+            _FlameThrower_lv3.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FlameThrower_lv4.SetActive(true);
+            _FlameThrower_lv4.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+        else if (_cards_lv._flameThrowerAttackLv == 5)
+        {
+            _FlameThrower_lv4.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _FlameThrower_lv5.SetActive(true);
+            _FlameThrower_lv5.transform.Rotate(0, 0, _speedFlameThrower * Time.deltaTime, Space.Self); // Aplica uma rotação contínua ao redor do eixo Z
+        }
+
     }
 
     public void ExplosionFire()
     {
-        Debug.Log("Explosion Fire Attack");
-        _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
+        //Debug.Log("Explosion Fire Attack");
+
+        // Verifica se o nível do ataque de explosão de fogo é maior que 0 para ativar a explosão de fogo
+        if (_cards_lv._explosionFireLv > 0)
+            _ExplosionFire.SetActive(true);// Ativa a explosão de fogo
 
         //Aumenta o tamanho da explosão de fogo ate atingir o alcance definido
         _ExplosionFire.transform.localScale += Vector3.one * _speedExplosionFire * Time.deltaTime;
+        if (_cards_lv._explosionFireLv == 1)
+        {
+            _ExplosionFireRange = 2f; // Define o alcance da explosão de fogo para o nível 1
+        }
+        else if(_cards_lv._explosionFireLv == 2)
+        {
+            _ExplosionFireRange = 3f; // Define o alcance da explosão de fogo para o nível 2
+        }
+        else if(_cards_lv._explosionFireLv == 3)
+        {
+            _ExplosionFireRange = 4f; // Define o alcance da explosão de fogo para o nível 3
+        }
+        else if(_cards_lv._explosionFireLv == 4)
+        {
+            _ExplosionFireRange = 5f; // Define o alcance da explosão de fogo para o nível 4
+        }
+        else if(_cards_lv._explosionFireLv == 5)
+        {
+            _ExplosionFireRange = 6f; // Define o alcance da explosão de fogo para o nível 5
+        }
+
         if (_ExplosionFire.transform.localScale.x >= _ExplosionFireRange)
         {
             _ExplosionFire.transform.localScale = Vector3.zero; // Reseta o tamanho da explosão de fogo para o próximo ataque
             _ExplosionFireTimer = 0f; // Reseta o cooldown do ataque de explosão de fogo
             _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
-        }
-
-        if (_cards_lv._explosionFireLv == 1)
-        {
-            
         }
     }
 }
