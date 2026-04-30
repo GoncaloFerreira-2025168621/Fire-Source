@@ -11,11 +11,18 @@ public class Tochas : MonoBehaviour
     [SerializeField] private float _LightPower;
     [SerializeField] private float _FirePower;
 
+    [SerializeField] private Spawn_Enemy _spawn_Enemy;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+       /* GameObject SpawnEnemy = GameObject.FindGameObjectWithTag("SpawnEnemy");
+        if (SpawnEnemy != null)
+        {
+
+            _spawn_Enemy = SpawnEnemy.GetComponent<Spawn_Enemy>();
+        }*/
     }
 
     // Update is called once per frame
@@ -38,6 +45,7 @@ public class Tochas : MonoBehaviour
         {
             Debug.Log("Tocha acesa");
             _Light.SetActive(true);
+            _spawn_Enemy._EnemysSpawn = true;
         }
     }
 

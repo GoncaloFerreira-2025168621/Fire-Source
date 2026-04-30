@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5784624293592810108}
   - component: {fileID: 5506390706774705380}
-  - component: {fileID: 2240278091528770226}
+  - component: {fileID: 5458196960610381249}
   - component: {fileID: 1932941625808281904}
   m_Layer: 0
   m_Name: Bau
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2240278091528770226
+--- !u!114 &5458196960610381249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,17 +98,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7576994601452954857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59eb03aa6a98164a91518dd0b3f7dee, type: 3}
+  m_Script: {fileID: 11500000, guid: 453105e66008db24e8d726dd58b7d704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cards: {fileID: 0}
-  _EspaceCart1: 0
-  _EspaceCart2: 0
-  _EspaceCart3: 0
-  _TagPlayer: Player
-  _EspaceCart1_Obj: {fileID: 4687550388350971531, guid: 9be390a650d368346b8281ba3f89c915, type: 3}
-  _EspaceCart2_Obj: {fileID: 627459402344183647, guid: 56fad2ddd9bf99e41a76de670930b4a5, type: 3}
-  _EspaceCart3_Obj: {fileID: 4593218617711010025, guid: b93ddc8b513602f40b05aab6f949c951, type: 3}
+  _playerTag: Player
+  _spawnCarts: {fileID: 0}
 --- !u!61 &1932941625808281904
 BoxCollider2D:
   m_ObjectHideFlags: 0

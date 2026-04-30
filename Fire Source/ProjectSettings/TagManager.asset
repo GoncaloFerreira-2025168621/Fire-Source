@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Cards
   - SpawnCarts
+  - GameManager
   layers:
   - Default
   - TransparentFX
