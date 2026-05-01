@@ -1,6 +1,6 @@
-﻿using Unity.VisualScripting;
+﻿
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class StatsEnemy : MonoBehaviour
 {
@@ -36,6 +36,15 @@ public class StatsEnemy : MonoBehaviour
 
     private Tochas _Tochas; 
     private StatsPlayer _player;
+
+    private PilarSecundario _pilarSecundario1;
+    private PilarSecundario _pilarSecundario2;
+    private PilarSecundario _pilarSecundario3;
+
+    private Transform _pilarSecundarioTransform1;
+    private Transform _pilarSecundarioTransform2;
+    private Transform _pilarSecundarioTransform3;
+
 
 
     [SerializeField] public int _typeEnemy;// 1 para tanque, 2 para normal e 3 para dano
@@ -74,6 +83,28 @@ public class StatsEnemy : MonoBehaviour
             _TorreTransform = torreObj.transform;
         }
 
+        GameObject Secundario1 = GameObject.FindGameObjectWithTag("Secundario1");
+        if(Secundario1 != null)
+        {
+            _pilarSecundario1 = Secundario1.GetComponent<PilarSecundario>();
+            _pilarSecundarioTransform1 = Secundario1.transform;
+        }
+        GameObject Secundario2 = GameObject.FindGameObjectWithTag("Secundario2");
+        if (Secundario2 != null)
+        {
+            _pilarSecundario2 = Secundario2.GetComponent<PilarSecundario>();
+            _pilarSecundarioTransform2 = Secundario2.transform;
+        }
+        GameObject Secundario3 = GameObject.FindGameObjectWithTag("Secundario3");
+        if (Secundario3 != null)
+        {
+            _pilarSecundario3 = Secundario3.GetComponent<PilarSecundario>();
+            _pilarSecundarioTransform3 = Secundario3.transform;
+        }
+
+
+
+
         GameObject WaveObj = GameObject.FindGameObjectWithTag("GameManager");
         if (WaveObj != null)
         {
@@ -92,8 +123,11 @@ public class StatsEnemy : MonoBehaviour
     {
         float distancePlayer = Vector2.Distance(transform.position, _playerTransform.position);
         float distanceTorre = Vector2.Distance(transform.position, _TorreTransform.position);
+        float TorreSeundario1 = Vector2.Distance(transform.position, _pilarSecundarioTransform1.position);
+        float TorreSeundario2 = Vector2.Distance(transform.position, _pilarSecundarioTransform2.position);
+        float TorreSeundario3 = Vector2.Distance(transform.position, _pilarSecundarioTransform3.position);
 
-       
+
 
         if (distanceTorre <= _VisaoMin)
         {
@@ -107,10 +141,25 @@ public class StatsEnemy : MonoBehaviour
             }
         }
 
-        // Se o player estiver dentro do alcance, move at� ele
+        // Se o player estiver dentro do alcance, move ate ele
         if (distancePlayer <= _Visao)
         {
             Vector3 direction = (_playerTransform.position - transform.position).normalized;
+            transform.position += direction * _SpeedAtual * Time.deltaTime;
+        }
+        else if(TorreSeundario1 <= _Visao)
+        {
+            Vector3 direction = (_pilarSecundarioTransform1.position - transform.position).normalized;
+            transform.position += direction * _SpeedAtual * Time.deltaTime;
+        }
+        else if (TorreSeundario2 <= _Visao)
+        {
+            Vector3 direction = (_pilarSecundarioTransform2.position - transform.position).normalized;
+            transform.position += direction * _SpeedAtual * Time.deltaTime;
+        }
+        else if (TorreSeundario3 <= _Visao)
+        {
+            Vector3 direction = (_pilarSecundarioTransform3.position - transform.position).normalized;
             transform.position += direction * _SpeedAtual * Time.deltaTime;
         }
         else
@@ -130,6 +179,41 @@ public class StatsEnemy : MonoBehaviour
                 _AtackColldown = 1;
             }
         }
+
+        if (TorreSeundario1 <= _VisaoMin)
+        {
+            _AtackColldown -= Time.deltaTime;
+            if (_AtackColldown <= 0)
+            {
+                Debug.Log("Enimigo a tirar dano");
+                _pilarSecundario1.TakeDamage(_DamageAtual);
+                _SpeedAtual = 0;
+                _AtackColldown = 1;
+            }
+        }
+        else if (TorreSeundario2 <= _VisaoMin)
+        {
+            _AtackColldown -= Time.deltaTime;
+            if (_AtackColldown <= 0)
+            {
+                Debug.Log("Enimigo a tirar dano");
+                _pilarSecundario2.TakeDamage(_DamageAtual);
+                _SpeedAtual = 0;
+                _AtackColldown = 1;
+            }
+        }
+        else if (TorreSeundario3 <= _VisaoMin)
+        {
+            _AtackColldown -= Time.deltaTime;
+            if (_AtackColldown <= 0)
+            {
+                Debug.Log("Enimigo a tirar dano");
+                _pilarSecundario3.TakeDamage(_DamageAtual);
+                _SpeedAtual = 0;
+                _AtackColldown = 1;
+            }
+        }
+
 
         if (_lifeAtual <= 0)
         {

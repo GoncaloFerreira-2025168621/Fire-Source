@@ -6,6 +6,14 @@ public class Tochas : MonoBehaviour
 {
     [SerializeField] private GameObject _Light;
     [SerializeField] private GameObject _Fire;
+
+    [SerializeField] private GameObject _Fire2;
+    [SerializeField] private GameObject _Fire3;
+    [SerializeField] private GameObject _Fire4;
+
+    [SerializeField] private GameObject _Light1;
+    [SerializeField] private GameObject _Light2;
+    [SerializeField] private GameObject _Light3;
     //public GameObject tochas;
     [SerializeField] private string _TagPlayer = "Player";
 
@@ -49,7 +57,7 @@ public class Tochas : MonoBehaviour
             Application.LoadLevel(0);
             Debug.Log("Torre Sem vida");
         }
-        _textLife.text = "Vida da Torre" + _LifeAtual.ToString();
+        _textLife.text = "Vida da Torre Principal" + _LifeAtual.ToString();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -61,6 +69,9 @@ public class Tochas : MonoBehaviour
             _spawnCarts.RandomizeCards();
             Debug.Log("Tocha acesa");
             _Light.SetActive(true);
+            _Light1.SetActive(true);
+            _Light2.SetActive(true);
+            _Light3.SetActive(true);
             _hasSpawned = true;
         }
         // Marca como já gerado para não repetir
@@ -70,6 +81,9 @@ public class Tochas : MonoBehaviour
     public void ScaleProgressiveLight()
     {
         _Light.transform.localScale += new Vector3(0.04f, 0.06f, 0);
+        _Light1.transform.localScale += new Vector3(0.02f, 0.03f, 0);
+        _Light2.transform.localScale += new Vector3(0.02f, 0.03f, 0);
+        _Light3.transform.localScale += new Vector3(0.02f, 0.03f, 0);
     }
 
     public void ScaleProgressiveFire()

@@ -24,7 +24,7 @@ public class Player_controller : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
+            //UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized; // Maximize the Unity Editor window for better visibility during development
         }
     }
 

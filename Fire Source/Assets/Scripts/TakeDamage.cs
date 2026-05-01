@@ -12,6 +12,7 @@ public class TakeDamage : MonoBehaviour
     [SerializeField] public float _damageFlameThrower = 2;
     [SerializeField] public float _damageFireBall = 3;
     [SerializeField] public int _TypeDamage;
+    [SerializeField] PlayerAttack _Attack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,5 +57,14 @@ public class TakeDamage : MonoBehaviour
 
             
         }
+    }
+
+    public void FalseMelee()
+    {
+        _Attack._MeleeAttack_lv1.SetActive(false);
+        _Attack._MeleeAttack_lv2.SetActive(false);
+        _Attack._MeleeAttack_lv3.SetActive(false);
+        _Attack._MeleeAttack_lv4.SetActive(false);
+        _Attack._MeleeAttack_lv5.SetActive(false);
     }
 }

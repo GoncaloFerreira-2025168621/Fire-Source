@@ -23,7 +23,12 @@ public class StatsPlayer : MonoBehaviour
             Application.LoadLevel(0);
             Debug.Log("Player Sem vida");
         }
-        _textLife.text = "Vida da Torre" + _lifePlayerAtual.ToString();
+        _textLife.text = "Vida da Torre " + _lifePlayerAtual.ToString();
+
+        if (_lifePlayerAtual >= _lifePlayer)
+        {
+            _lifePlayerAtual = _lifePlayer;
+        }
     }
 
     public void TakeDamage(float life)

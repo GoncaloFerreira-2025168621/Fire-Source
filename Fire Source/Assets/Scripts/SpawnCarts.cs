@@ -15,6 +15,14 @@ public class SpawnCarts : MonoBehaviour
     [SerializeField] public GameObject _EspaceCart2_Obj;
     [SerializeField] public GameObject _EspaceCart3_Obj;
 
+    [SerializeField] private GameObject _Texto1;
+    [SerializeField] private GameObject _Texto2;
+    [SerializeField] private GameObject _Texto3;
+    [SerializeField] private GameObject _Texto4;
+    [SerializeField] private GameObject _Texto5;
+    [SerializeField] private GameObject _Texto6;
+    [SerializeField] private GameObject _Texto7;
+
     public int _numeroCarta1;
     public int _numeroCarta2;
     public int _numeroCarta3;
@@ -41,7 +49,14 @@ public class SpawnCarts : MonoBehaviour
     public void RandomizeCards()
     {
 
-       // if (!collision.gameObject.CompareTag(_TagPlayer)) return;
+        // if (!collision.gameObject.CompareTag(_TagPlayer)) return;
+        _Texto1.SetActive(false);
+        _Texto2.SetActive(false);
+        _Texto3.SetActive(false);
+        _Texto4.SetActive(false);
+        _Texto5.SetActive(false);
+        _Texto6.SetActive(false);
+        _Texto7.SetActive(false);
 
         Debug.Log("Player entrou no espaço de cartas");
 
@@ -254,4 +269,15 @@ public class SpawnCarts : MonoBehaviour
         }
     }
 
+
+    public void AtivarTextos()
+    {
+        _Texto1.SetActive(true);
+        _Texto2.SetActive(true);
+        _Texto3.SetActive(true);
+        _Texto4.SetActive(true);
+        _Texto5.SetActive(true);
+        _Texto6.SetActive(true);
+        _Texto7.SetActive(true);
+    }
 }

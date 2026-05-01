@@ -11,6 +11,9 @@ TagManager:
   - SpawnEnemys
   - Corredor
   - Torre
+  - Secundario1
+  - Secundario2
+  - Secundario3
   layers:
   - Default
   - TransparentFX

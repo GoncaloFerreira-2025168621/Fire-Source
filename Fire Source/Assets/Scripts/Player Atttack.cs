@@ -11,15 +11,18 @@ public class PlayerAttack : MonoBehaviour
     [Header("Cards")]
     [SerializeField] private Carts _cards;
 
+    [Header("StatsPlayer")]
+    [SerializeField] private StatsPlayer _statsPlayer;
+
     [Header("Lvl Power Attack")]
     [SerializeField] private Carts _cards_lv;
 
     [Header("Melee Attack")]
-    [SerializeField] private GameObject _MeleeAttack_lv1;
-    [SerializeField] private GameObject _MeleeAttack_lv2;
-    [SerializeField] private GameObject _MeleeAttack_lv3;
-    [SerializeField] private GameObject _MeleeAttack_lv4;
-    [SerializeField] private GameObject _MeleeAttack_lv5;
+    [SerializeField] public GameObject _MeleeAttack_lv1;
+    [SerializeField] public GameObject _MeleeAttack_lv2;
+    [SerializeField] public GameObject _MeleeAttack_lv3;
+    [SerializeField] public GameObject _MeleeAttack_lv4;
+    [SerializeField] public GameObject _MeleeAttack_lv5;
     [SerializeField] private float _MeleeRange; // Alcance do ataque corpo a corpo
     [SerializeField] private float _MeleeAttackCooldown; // Tempo de cooldown do ataque corpo a corpo em segundos
     [SerializeField] private float _MeleeAttackTimer; // Timer para controlar o tempo de ataque corpo a corpo
@@ -94,10 +97,11 @@ public class PlayerAttack : MonoBehaviour
         {
             _MeleeAttackTimer += Time.deltaTime; // Incrementa o cooldown do ataque corpo a corpo a cada frame
         }
-
+        
         FireBalls();
         FlameThrower();
         ExplosionFire();
+        //MeleeAttack();
 
         if (_cards_lv._fireBallsAttackLv == 1)
         {
@@ -112,7 +116,7 @@ public class PlayerAttack : MonoBehaviour
             
         }
 
-        // Define o cooldown do ataque corpo a corpo com base no nível do ataque
+        /*// Define o cooldown do ataque corpo a corpo com base no nível do ataque
         if (_cards_lv._meleeAttackLv == 1)
         {
             _MeleeAttackCooldown = 2f;
@@ -133,7 +137,7 @@ public class PlayerAttack : MonoBehaviour
         else if (_cards_lv._meleeAttackLv == 5)
         {
             _MeleeAttackCooldown = 0.5f;
-        }
+        }*/
 
         // Define o cooldown do ataque a distância com base no nível do ataque
         if (_cards_lv._rangeAttackLv == 1)
@@ -166,10 +170,7 @@ public class PlayerAttack : MonoBehaviour
         {
             MeleeAttack(); // Chama o método de ataque base
         }
-        else
-        {
-            
-        }
+        
 
 
         /*
@@ -185,7 +186,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void MeleeAttack()
     {
-        _MeleeAttack_lv1.SetActive(true); 
+        //_MeleeAttack_lv1.SetActive(true); 
         //Debug.Log("Melee Attack");
         // Pega a posição do mouse no mundo
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -198,28 +199,60 @@ public class PlayerAttack : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Aplicar rotacao
-        _MeleeAttack_lv1.transform.rotation = Quaternion.Euler(0, 0, angle);
+        //_MeleeAttack_lv1.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // Posicionar a volta do player
-        _MeleeAttack_lv1.transform.localPosition = (Vector3)direction * _MeleeRange;
+        //_MeleeAttack_lv1.transform.localPosition = (Vector3)direction * _MeleeRange;
+        _MeleeAttack_lv1.transform.position = _PlayerDirection.transform.position + (Vector3)direction * _MeleeRange;
+        _MeleeAttack_lv2.transform.position = _PlayerDirection.transform.position + (Vector3)direction * _MeleeRange;
+        _MeleeAttack_lv3.transform.position = _PlayerDirection.transform.position + (Vector3)direction * _MeleeRange;
+        _MeleeAttack_lv4.transform.position = _PlayerDirection.transform.position + (Vector3)direction * _MeleeRange;
+        _MeleeAttack_lv5.transform.position = _PlayerDirection.transform.position + (Vector3)direction * _MeleeRange;
 
         // ajusta aqui (testa 90 ou -90)
         angle -= 90f;
 
-        _MeleeAttack_lv1.transform.rotation = Quaternion.Euler(0, 0, angle);
+        
 
-        if (_MeleeAttackTimer >= _MeleeAttackCooldown + 0.5f)// Verifica se o cooldown do ataque corpo a corpo é igual ao tempo definido mais um tempo extra para manter o ponto de ataque ativo por um curto período
+        //Debug.Log("FireBallsAttackLv called");
+        if (_cards_lv._meleeAttackLv == 1)
         {
-            _MeleeAttack_lv1.SetActive(false);
-            _MeleeAttackTimer = 0f; // Reseta o cooldown do ataque
+            _MeleeAttack_lv1.SetActive(true);
+            _MeleeAttack_lv1.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        else if (_cards_lv._meleeAttackLv == 2)
+        {
+            _MeleeAttack_lv1.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _MeleeAttack_lv2.SetActive(true);
+            _MeleeAttack_lv2.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        }
+        else if (_cards_lv._meleeAttackLv == 3)
+        {
+            _MeleeAttack_lv2.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _MeleeAttack_lv3.SetActive(true);
+            _MeleeAttack_lv3.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        }
+        else if (_cards_lv._meleeAttackLv == 4)
+        {
+            _MeleeAttack_lv3.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _MeleeAttack_lv4.SetActive(true);
+            _MeleeAttack_lv4.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        }
+        else if (_cards_lv._meleeAttackLv == 5)
+        {
+            _MeleeAttack_lv4.SetActive(false); // Desativa o nível anterior para evitar sobreposição
+            _MeleeAttack_lv5.SetActive(true);
+            _MeleeAttack_lv5.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         //Instantiate(_AttackPoint, _AttackPoint.transform.position, _AttackPoint.transform.rotation); // Ativa o ponto de ataque para indicar que o ataque está ativo
         // _MeleeAttack_lv1.SetActive(true); // Ativa o ponto de ataque para indicar que o ataque está ativo
-        
 
-        }
+        _MeleeAttackTimer = 0;
+    }
 
     
     public void RangeAttack()
@@ -360,5 +393,29 @@ public class PlayerAttack : MonoBehaviour
             _ExplosionFire.SetActive(false); // Desativa a explosão de fogo quando atingir o alcance máximo
         }
     }
+
+    public void Carvao()
+    {
+        
+        float life = _statsPlayer._lifePlayerAtual;
+        life = (float)(life + life * 0.70);
+        _statsPlayer._lifePlayerAtual = life;   
+    }
+
+    public void Madeira()
+    {
+        float life = _statsPlayer._lifePlayerAtual;
+        life = (float)(life + life * 0.50);
+        _statsPlayer._lifePlayerAtual = life;
+    }
+
+    public void folha ()
+    {
+        float life = _statsPlayer._lifePlayerAtual;
+        life = (float)(life + life * 0.25);
+        _statsPlayer._lifePlayerAtual = life;
+    }
+
+    
 }
 

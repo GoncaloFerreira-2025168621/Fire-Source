@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Waves : MonoBehaviour
@@ -14,6 +15,9 @@ public class Waves : MonoBehaviour
     //[SerializeField] private int _numeroDeCorredores;
     [SerializeField] public SpawnCarts _spawnCarts;
     [SerializeField] public bool _CartaLancada = false;
+
+    [SerializeField] public TextMeshProUGUI _Wave;
+    [SerializeField] public TextMeshProUGUI _Enimigos;
 
     public float _MaxEnemysLancados;
     public float _EnemysAtuais;
@@ -43,6 +47,8 @@ public class Waves : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _Wave.text = "Wave " + _Waves.ToString();
+        _Enimigos.text = "Enimgos Restantes: " + _inimigosEmFalta.ToString();
         if (_ProntoSpawn == true)
         {
 
