@@ -7,6 +7,10 @@ TagManager:
   - Cards
   - SpawnCarts
   - GameManager
+  - Enemy
+  - SpawnEnemys
+  - Corredor
+  - Torre
   layers:
   - Default
   - TransparentFX

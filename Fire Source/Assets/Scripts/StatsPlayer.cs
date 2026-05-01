@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class StatsPlayer : MonoBehaviour
@@ -5,7 +6,7 @@ public class StatsPlayer : MonoBehaviour
 
     [SerializeField] public float _lifePlayer;
     [SerializeField] public float _lifePlayerAtual;
-
+    [SerializeField] public TextMeshProUGUI _textLife;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +23,7 @@ public class StatsPlayer : MonoBehaviour
             Application.LoadLevel(0);
             Debug.Log("Player Sem vida");
         }
+        _textLife.text = "Vida da Torre" + _lifePlayerAtual.ToString();
     }
 
     public void TakeDamage(float life)

@@ -2,13 +2,28 @@ using UnityEngine;
 
 public class Waves : MonoBehaviour
 {
-    [SerializeField] public int _Waves;
+    [SerializeField] public float _Waves;
     [SerializeField] private StatsPlayer _player;
     [SerializeField] private Spawn_Enemy _enemy;
+    [SerializeField] public bool _ProntoSpawn = false;
+
+
+    //[SerializeField] private Transform _transform;
+    //[SerializeField] private GameObject _Corredor;
+    [SerializeField] public float _inimigosEmFalta;
+    //[SerializeField] private int _numeroDeCorredores;
+    [SerializeField] public SpawnCarts _spawnCarts;
+    [SerializeField] public bool _CartaLancada = false;
+
+    public float _MaxEnemysLancados;
+    public float _EnemysAtuais;
+    public float _spawnTimer; // Timer para controlar o tempo de spawn dos inimigos
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -20,23 +35,40 @@ public class Waves : MonoBehaviour
         {
             _enemy = enemyObj.GetComponent<Spawn_Enemy>();
         }
-        _Waves = 1;
-        _enemy._Wave = _Waves;
+
+        _EnemysAtuais = _MaxEnemysLancados + _Waves;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_enemy._EnemysAtuais <= 0)
+        if (_ProntoSpawn == true)
         {
-            _Waves = _Waves + 1;
-            _enemy._Wave = _Waves;
+
+                _enemy.Spawn();
+                _EnemysAtuais = _EnemysAtuais - 1;
+        }
+        if (_EnemysAtuais == 0)
+        {
+            _ProntoSpawn = false;
+        }
+        
+
+       
+        if (_inimigosEmFalta <= 0 && _CartaLancada == false && _EnemysAtuais == 0)
+        {
+
+            Debug.Log("Todos os inimigos derrotados");
+            _spawnCarts.RandomizeCards();
+            _CartaLancada = true;
         }
 
         if (_player._lifePlayerAtual <= 0)
         {
             _Waves = 0;
-            _enemy._Wave = _Waves;
         }
     }
+
+
 }

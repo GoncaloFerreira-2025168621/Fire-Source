@@ -30,9 +30,13 @@ public class StatsEnemy : MonoBehaviour
     [SerializeField] public float _AtackColldown = 1;
 
 
-
+    private Waves _Wavesinimigos;
     private Transform _playerTransform;
+    private Transform _TorreTransform;
+
+    private Tochas _Tochas; 
     private StatsPlayer _player;
+
 
     [SerializeField] public int _typeEnemy;// 1 para tanque, 2 para normal e 3 para dano
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,6 +67,19 @@ public class StatsEnemy : MonoBehaviour
             _playerTransform = playerObj.transform;
             _player = playerObj.GetComponent<StatsPlayer>();
         }
+        GameObject torreObj = GameObject.FindGameObjectWithTag("Torre");
+        if (torreObj != null) 
+        {
+            _Tochas = torreObj.GetComponent<Tochas>();
+            _TorreTransform = torreObj.transform;
+        }
+
+        GameObject WaveObj = GameObject.FindGameObjectWithTag("GameManager");
+        if (WaveObj != null)
+        {
+
+            _Wavesinimigos = WaveObj.GetComponent<Waves>();
+        }
         /*if (_Visao <= 0)
         {
             _SpeedAtual = 0f; // Para o inimigo quando estiver muito pr�ximo do player
@@ -73,26 +90,50 @@ public class StatsEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, _playerTransform.position);
+        float distancePlayer = Vector2.Distance(transform.position, _playerTransform.position);
+        float distanceTorre = Vector2.Distance(transform.position, _TorreTransform.position);
 
+       
+
+        if (distanceTorre <= _VisaoMin)
+        {
+            _AtackColldown -= Time.deltaTime;
+            if (_AtackColldown <= 0)
+            {
+                Debug.Log("Enimigo a tirar dano");
+                _Tochas.TakeDamage(_DamageAtual);
+                _SpeedAtual = 0;
+                _AtackColldown = 1;
+            }
+        }
 
         // Se o player estiver dentro do alcance, move at� ele
-        if (distance <= _Visao)
+        if (distancePlayer <= _Visao)
         {
             Vector3 direction = (_playerTransform.position - transform.position).normalized;
             transform.position += direction * _SpeedAtual * Time.deltaTime;
-            _AtackColldown -= Time.deltaTime;
         }
-        if(distance <= _VisaoMin && _AtackColldown <= 0)
+        else
         {
-            Debug.Log("Enimigo a tirar dano");
-            _player.TakeDamage(_DamageAtual);
-            _SpeedAtual = 0;
-            _AtackColldown = 1;
+            Vector3 directionTorre = (_TorreTransform.position - transform.position).normalized;
+            transform.position += directionTorre * _SpeedAtual * Time.deltaTime;
+        }
+
+        if (distancePlayer <= _VisaoMin)
+        {
+            _AtackColldown -= Time.deltaTime;
+            if (_AtackColldown <= 0)
+            {
+                Debug.Log("Enimigo a tirar dano");
+                _player.TakeDamage(_DamageAtual);
+                _SpeedAtual = 0;
+                _AtackColldown = 1;
+            }
         }
 
         if (_lifeAtual <= 0)
         {
+            _Wavesinimigos._inimigosEmFalta = _Wavesinimigos._inimigosEmFalta - 1;
             Destroy(gameObject);
         }
     }

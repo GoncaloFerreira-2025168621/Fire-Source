@@ -27,15 +27,10 @@ public class TakeDamage : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            _statsEnemy = collision.gameObject.GetComponent<StatsEnemy>();
-        }
-
         // Verificar se o objeto colidido tem a tag "Enemy"
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            _statsEnemy = collision.gameObject.GetComponent<StatsEnemy>();
             Debug.Log("Colisão com o inimigo detectada!");
             switch (_TypeDamage)
             {
